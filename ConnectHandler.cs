@@ -10,7 +10,6 @@ namespace FlightRelay
     {
         private SimConnect? simconnect; 
         private bool isConnected;
-        private bool isMSFS2024 = true; // Assume 2024 until proven otherwise will be utilized in the future versions.
         private bool hasShownConnectionLostMessage = false;
 
         public FlightData CurrentFlightData { get; private set; }

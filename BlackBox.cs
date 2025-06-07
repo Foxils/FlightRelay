@@ -6,25 +6,21 @@ namespace FlightRelay
     public enum DataDefinitions { FlightData }
     enum DATA_DEFINITIONS { FLIGHT_DATA }
 
-    // Data store
+   
 
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi, Pack = 1)]
     public struct FlightData
     {
-        public double Altitude;
-        public double Speed;
-        public double VerticalSpeed;
-        public double Heading;
-
-        public double Latitude;
-        public double Longitude;
-        public double TrueAirspeed;
-        public double WindSpeed;
-        public double WindDirection;
-        public double AmbientTemperature;
-
-        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 256)]
-        public string WaypointIdent;
-
+        public double Altitude { get; set; }
+        public double Speed { get; set; }
+        public double VerticalSpeed { get; set; }
+        public double Heading { get; set; }
+        public double Latitude { get; set; }
+        public double Longitude { get; set; }
+        public double TrueAirspeed { get; set; }
+        public double WindSpeed { get; set; }
+        public double WindDirection { get; set; }
+        public double AmbientTemperature { get; set; }
+      
     }
 }

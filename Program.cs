@@ -1,8 +1,9 @@
-﻿using Microsoft.FlightSimulator.SimConnect;
+﻿using FlightRelay;
+using Microsoft.FlightSimulator.SimConnect;
 using System;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
-using FlightRelay;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 class Program
 {
@@ -12,11 +13,16 @@ class Program
     {
         simHandler = new SimConnectHandler();
         Console.Title = "Flight Relay";
+
+        var api = new ApiConnection();
+
         simHandler.Connected += () => Console.WriteLine("Connected");
         simHandler.Disconnected += () => Console.WriteLine("Disconnected - is the simulator running?");
-        simHandler.FlightDataReceived += (data) =>
+        simHandler.FlightDataReceived += async (data) =>
 
         {
+
+
             Console.SetCursorPosition(0, 2);
             int headingInt = (int)Math.Round(data.Heading) % 360; 
             string headingFormatted = headingInt.ToString("D3");    
@@ -27,8 +33,19 @@ class Program
                 $"Vertical Speed: {data.VerticalSpeed:F0} fpm     " +
                 $"Heading: {headingFormatted}°"
             );
-        };
 
+            try
+            {
+                await api.SendFlightDataAsync(data);
+                Console.WriteLine($"Sending flight data: Altitude={data.Altitude}, Speed={data.Speed}");
+
+                Console.WriteLine("DEBUG: Flight data sent.");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"ERROR sending flight data: {ex.Message}");
+            }
+        };
 
         var requestLoop = simHandler.StartRequestLoopAsync();
 
